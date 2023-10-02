@@ -3,12 +3,12 @@ version: '3'
 services:
   nginx:
     image: nginx:alpine
-    volumes:
-      - ./nginx/conf.d/cas.conf:/etc/nginx/conf.d/cas.conf
-      - ./ssl:/etc/nginx/ssl  # Assuming your certificates are in a directory named ssl
     ports:
       - "80:80"
       - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/ssl:/etc/nginx/ssl
     depends_on:
       - cas
 

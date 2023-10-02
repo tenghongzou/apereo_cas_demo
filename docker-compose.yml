@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx:alpine
+    volumes:
+      - ./nginx/conf.d/cas.conf:/etc/nginx/conf.d/cas.conf
+      - ./ssl:/etc/nginx/ssl  # Assuming your certificates are in a directory named ssl
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - cas
+
+  cas:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8443:8443"
+    volumes:
+      - ./cas/config:/etc/cas/config
+    environment:
+      - SPRING_PROFILES_ACTIVE=native
